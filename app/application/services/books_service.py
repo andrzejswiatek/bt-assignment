@@ -1,10 +1,10 @@
 from typing import Optional
 from app.domain.models import Book
-from app.domain.repositories.book_repository import BookRepository
+from app.domain.repositories.book_repository import BookRepositoryProtocol
 
 
 class BooksService():
-    def __init__(self, books_repository: BookRepository):
+    def __init__(self, books_repository: BookRepositoryProtocol):
         self.books_repository = books_repository
 
     def get_book(self, book_id: int) -> Book:

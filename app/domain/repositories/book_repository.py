@@ -2,7 +2,7 @@ from typing import Optional, Protocol
 
 from app.domain.models import Book
 
-class BookRepository(Protocol):
+class BookRepositoryProtocol(Protocol):
     def get_book(self, book_id: int) -> Book:
         ...
 

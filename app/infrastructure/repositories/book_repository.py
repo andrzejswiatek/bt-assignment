@@ -1,12 +1,12 @@
 from typing import Optional
 from app.domain.exceptions import ItemAlreadyExistsError, ItemNotFoundError
-from app.domain.repositories.book_repository import BookRepository
+from app.domain.repositories.book_repository import BookRepositoryProtocol
 from app.domain.models import Book
 from app.infrastructure.models import BookORM
 from sqlalchemy.exc import IntegrityError
 
 
-class SQLAlchemyBookRepository(BookRepository):
+class SQLAlchemyBookRepository(BookRepositoryProtocol):
     def __init__(self, session):
         self.session = session
 

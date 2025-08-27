@@ -3,7 +3,7 @@ import sys
 from httpx import patch
 import requests
 
-BASE = "http://localhost:8000"
+BASE = "http://localhost:8080"
 HEADERS = {"Content-Type": "application/json"}
 def test_health_check():
     r = requests.get(f"{BASE}/health", timeout=3)
