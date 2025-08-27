@@ -1,20 +1,16 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
-from sqlalchemy import create_engine
 from app.api.routes.books import books_router
 from app.container import CoreContainer
 from app.infrastructure.models import Base
+from app.infrastructure.sqlalchemy_engine_factory import SQLAlchemyEngineFactory
 
 
 def create_app() -> FastAPI:
-    # TODO: move to the configuration
-    DATABASE_URL = "postgresql://assesment:secretforassesment@localhost:5432/assesment"
-    # TODO: consider encapsulation
-    engine = create_engine(DATABASE_URL)
 
     @asynccontextmanager
     async def lifespan(app: FastAPI):
-        Base.metadata.create_all(bind=engine)
+        Base.metadata.create_all(bind=SQLAlchemyEngineFactory.create_engine())
         yield
 
     app = FastAPI(lifespan=lifespan)

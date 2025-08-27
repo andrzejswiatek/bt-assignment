@@ -33,7 +33,7 @@ class SQLAlchemyBookRepository(BookRepository):
             self.session.commit()
             self.session.refresh(book_orm)
             return Book.model_validate(book_orm)
-        except IntegrityError as e:
+        except IntegrityError:
             self.session.rollback()
             raise ItemAlreadyExistsError(
                 f"Book with title '{book.title}' and author '{book.author}' already exists.")
