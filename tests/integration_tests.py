@@ -3,7 +3,7 @@ import sys
 from httpx import patch
 import requests
 
-BASE = "http://localhost:8080"
+BASE = "http://localhost:8000"
 HEADERS = {"Content-Type": "application/json"}
 def test_health_check():
     r = requests.get(f"{BASE}/health", timeout=3)
@@ -39,13 +39,15 @@ def test_add_book():
     r = requests.get(f"{BASE}/books/{new_id}", timeout=3)
     assert r.status_code == 200 and r.json()["title"] == "The Hobbit"
     print("Add book")
-    return new_id
+    
+    assert_update_price_and_rating(new_id)
 
-def test_update_price_and_rating(book_id):
+def assert_update_price_and_rating(book_id):
     patch = {"price": 12.49, "rating": 4.8}
     r = requests.put(f"{BASE}/books/{book_id}", json=patch, headers=HEADERS, timeout=3)
     assert r.status_code == 200
     data = r.json()
+    print(data)
     assert data["price"] == patch["price"] and data["rating"] == patch["rating"]
     print("Update price & rating")
 
@@ -80,8 +82,7 @@ def main():
     test_health_check()
     test_get_book_by_id()
     test_get_book_by_title()
-    new_id = test_add_book()
-    test_update_price_and_rating(new_id)
+    test_add_book()    
     test_filter_by_pages()
     test_validation_missing_fields()
     test_validation_invalid_values()

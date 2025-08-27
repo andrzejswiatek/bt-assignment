@@ -24,7 +24,7 @@ def get_book(book_id: int, book_service: Annotated[BooksServiceProtocol, Depends
         book = book_service.get_book(book_id)
         return book
     except ItemNotFoundError:
-        raise HTTPException(status_code=404, detail="Book not found")    
+        raise HTTPException(status_code=404, detail="Book not found")
 
 
 @books_router.get("/books")
@@ -49,9 +49,9 @@ def create_book(
         raise HTTPException(status_code=409, detail="Book already exists")
 
 
-@books_router.patch("/books/{book_id}")
+@books_router.put("/books/{book_id}")
 @inject
-def update_book(book_id: int, book_update: BookUpdateModel, book_service: Annotated[BooksServiceProtocol, Depends(Provide[CoreContainer.books_service])]):
+def update_book(book_id: int, book_update: BookUpdateModel, book_service: Annotated[BooksServiceProtocol, Depends(Provide[CoreContainer.books_service])]) -> BookOutput:
     try:
         book_service.get_book(book_id)
         book_data = book_update.dict(exclude_unset=True)
@@ -59,10 +59,10 @@ def update_book(book_id: int, book_update: BookUpdateModel, book_service: Annota
             raise HTTPException(
                 status_code=400, detail="No property for update provided")
 
-        book = book_service.update_book(book_id, book_data)
-        return book
+        result = book_service.update_book(book_id, book_data)
+        return BookOutput.model_validate(result.model_dump())
     except ItemNotFoundError:
-        raise HTTPException(status_code=404, detail="Book not found")    
+        raise HTTPException(status_code=404, detail="Book not found")
 
 
 @books_router.delete("/books/{book_id}", status_code=204)

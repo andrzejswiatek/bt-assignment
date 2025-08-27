@@ -6,9 +6,9 @@ Base = declarative_base()
 
 class BookORM(Base):
     __tablename__ = "books"
-    __table_args__ = (
-        UniqueConstraint("title", "author", name="uq_books_title_author"),
-    )
+    # __table_args__ = (
+    #     UniqueConstraint("title", "author", name="uq_books_title_author"),
+    # )
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True, autoincrement=False)
     title: Mapped[str] = mapped_column(String(100), nullable=False)
     author: Mapped[str] = mapped_column(String(100), nullable=False)
