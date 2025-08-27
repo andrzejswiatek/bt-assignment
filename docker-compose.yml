@@ -1,0 +1,10 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres_container
+    restart: always
+    environment:      
+      POSTGRES_USER: assesment
+      POSTGRES_PASSWORD: secretforassesment
+    ports:
+      - "5432:5432"
