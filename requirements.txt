@@ -1,5 +1,5 @@
-fastapi[all]
+fastapi[all]>=0.116.1
 uvicorn
-psycopg2-binary
+psycopg2-binary>=2.9.10
 sqlalchemy
 dependency-injector
