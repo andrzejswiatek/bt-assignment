@@ -8,3 +8,17 @@ services:
       POSTGRES_PASSWORD: secretforassesment
     ports:
       - "5432:5432"
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./app:/app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    command: ["fastapi", "run", "app/main.py", "--port", "8080"]
+    environment:
+      - PYTHONUNBUFFERED=1
+      - DATABASE_URL=postgresql://assesment:secretforassesment@postgres:5432/assesment
