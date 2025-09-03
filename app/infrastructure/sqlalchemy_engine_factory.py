@@ -11,4 +11,4 @@ class SQLAlchemyEngineFactory:
         db_url = os.environ["DATABASE_URL"]
         if not db_url:
             raise ValueError("DATABASE_URL environment variable is not set")
-        return create_engine(db_url)
+        return create_engine(db_url, echo=True)
