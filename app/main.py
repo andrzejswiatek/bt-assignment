@@ -4,6 +4,7 @@ from app.api.routes.books import books_router
 from app.container import CoreContainer
 from app.infrastructure.models import Base
 from app.infrastructure.sqlalchemy_engine_factory import SQLAlchemyEngineFactory
+from app.middleware import setup_middlewares
 
 
 def create_app() -> FastAPI:
@@ -23,6 +24,8 @@ def create_app() -> FastAPI:
 
 
 app = create_app()
+
+setup_middlewares(app)
 
 if __name__ == "__main__":
     import uvicorn
